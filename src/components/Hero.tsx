@@ -85,7 +85,7 @@ const Hero = () => {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 1 }}
-        className="absolute bottom-24 left-1/4 z-30 max-w-sm"
+        className="absolute bottom-24 left-10 z-30 max-w-sm"
       >
         <div className="glass rounded-xl p-6 relative">
           {/* Connector dot and line */}
