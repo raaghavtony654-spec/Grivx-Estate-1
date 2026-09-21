@@ -1,7 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
-const perspectiveVariants = {
+const perspectiveVariants: Variants = {
   initial: {
     opacity: 0,
     rotateX: 10,
@@ -15,7 +15,7 @@ const perspectiveVariants = {
     y: 0,
     transition: {
       duration: 1.2,
-      ease: [0.22, 1, 0.36, 1] // Custom easing for premium feel
+      ease: [0.22, 1, 0.36, 1] as const // Custom easing for premium feel
     }
   },
   exit: {
@@ -25,7 +25,7 @@ const perspectiveVariants = {
     y: -100,
     transition: {
       duration: 1,
-      ease: [0.22, 1, 0.36, 1]
+      ease: [0.22, 1, 0.36, 1] as const
     }
   }
 };

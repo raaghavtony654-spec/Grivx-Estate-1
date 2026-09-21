@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import heroBg from '../assets/hero_bg.jpg';
 
@@ -21,7 +21,6 @@ const Hero = () => {
   const smoothMouseY = useSpring(mouseY, springConfig);
 
   const bgOffsetX = useTransform(smoothMouseX, [-1, 1], ["-1%", "1%"]);
-  const bgOffsetY = useTransform(smoothMouseY, [-1, 1], ["-1%", "1%"]);
   
   const textOffsetX = useTransform(smoothMouseX, [-1, 1], ["-3%", "3%"]);
   const textOffsetY = useTransform(smoothMouseY, [-1, 1], ["-3%", "3%"]);

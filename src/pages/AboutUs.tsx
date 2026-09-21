@@ -1,4 +1,3 @@
-import React from 'react';
 import { PageTransition } from '../components/PageTransition';
 import { motion } from 'framer-motion';
 
