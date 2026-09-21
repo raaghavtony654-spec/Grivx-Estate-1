@@ -2,44 +2,7 @@ import { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { PageTransition } from '../components/PageTransition';
 
-const projectsData = [
-  {
-    id: 1,
-    title: "VILLA VERDE",
-    location: "Lake Como, Italy",
-    area: "850 m2",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1613490908571-9ce224a101b0?auto=format&fit=crop&q=80&w=1200",
-    colSpan: "col-span-1 md:col-span-2",
-  },
-  {
-    id: 2,
-    title: "THE MONOLITH",
-    location: "Oslo, Norway",
-    area: "420 m2",
-    year: "2026",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800",
-    colSpan: "col-span-1",
-  },
-  {
-    id: 3,
-    title: "DUNE HOUSE",
-    location: "Dubai, UAE",
-    area: "1200 m2",
-    year: "2024",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800",
-    colSpan: "col-span-1",
-  },
-  {
-    id: 4,
-    title: "SILENT PINE",
-    location: "Whistler, Canada",
-    area: "600 m2",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200",
-    colSpan: "col-span-1 md:col-span-2",
-  }
-];
+import { projectsData } from '../data/projects';
 
 const TiltCard = ({ project }: { project: typeof projectsData[0] }) => {
   const ref = useRef<HTMLDivElement>(null);

@@ -1,9 +1,17 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
-import heroBg from '../assets/hero_bg.jpg';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { projectsData } from '../data/projects';
 
 const Hero = () => {
   const containerRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % projectsData.length);
+    }, 4000); // 4 seconds gives a bit more time to read than 3 seconds
+    return () => clearInterval(timer);
+  }, []);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -35,6 +43,8 @@ const Hero = () => {
     mouseY.set(y);
   };
   
+  const project = projectsData[currentIndex];
+
   return (
     <div 
       ref={containerRef} 
@@ -47,62 +57,83 @@ const Hero = () => {
         style={{ y: imageY, x: bgOffsetX, scale: 1.05 }}
         className="absolute inset-0 w-full h-full"
       >
-        <img 
-          src={heroBg} 
-          alt="Luxury House" 
-          className="w-full h-full object-cover object-center opacity-80"
-        />
+        <AnimatePresence>
+          <motion.img 
+            key={`bg-${project.id}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.8 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            src={project.image} 
+            alt={project.title} 
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        </AnimatePresence>
         {/* Vignette Overlay for darker edges */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/20 to-black/80 pointer-events-none" />
       </motion.div>
 
       {/* Parallax Text Layer */}
-      {/* Removed mix-blend-overlay and added drop shadow to make TERRA more visible */}
-      <motion.div 
-        style={{ y: textY, x: textOffsetX }}
-        className="absolute inset-0 flex items-start justify-center pt-[8vh] pointer-events-none z-10"
-      >
-        <h1 className="text-[13vw] font-bold text-[#F0EBE1] leading-none tracking-tighter select-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] opacity-95">
-          TERRA
-        </h1>
-      </motion.div>
+      <AnimatePresence mode="wait">
+        <motion.div 
+          key={`title-${project.id}`}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          transition={{ duration: 1, ease: "easeInOut" }}
+          style={{ y: textY, x: textOffsetX }}
+          className="absolute inset-0 flex items-start justify-center pt-[8vh] pointer-events-none z-10"
+        >
+          <h1 className="text-[13vw] font-bold text-[#F0EBE1] leading-none tracking-tighter select-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] opacity-95">
+            {project.primaryText}
+          </h1>
+        </motion.div>
+      </AnimatePresence>
       
       {/* Optional Cursive Text Overlapping */}
-      <motion.div
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1, duration: 1.5, ease: "easeOut" }}
-        style={{ x: textOffsetX, y: textOffsetY }}
-        className="absolute bottom-[20%] right-[8%] z-20 pointer-events-none"
-      >
-        <h2 className="font-serif italic text-6xl md:text-[8rem] text-white/90 font-light drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
-          cotta
-        </h2>
-      </motion.div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`subtitle-${project.id}`}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -50 }}
+          transition={{ duration: 1, ease: "easeInOut" }}
+          style={{ x: textOffsetX, y: textOffsetY }}
+          className="absolute bottom-[20%] right-[8%] z-20 pointer-events-none"
+        >
+          <h2 className="font-serif italic text-6xl md:text-[8rem] text-white/90 font-light drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
+            {project.secondaryText}
+          </h2>
+        </motion.div>
+      </AnimatePresence>
 
       {/* Info Glass Card */}
-      <motion.div 
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 1 }}
-        className="absolute bottom-24 left-10 z-30 max-w-sm"
-      >
-        <div className="glass rounded-xl p-6 relative">
-          {/* Connector dot and line */}
-          <div className="absolute -top-[120px] left-10 w-[1px] h-[120px] bg-white/40">
-            <div className="absolute -top-1 -left-1 w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+      <AnimatePresence mode="wait">
+        <motion.div 
+          key={`info-${project.id}`}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 50 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="absolute bottom-24 left-10 z-30 max-w-sm"
+        >
+          <div className="glass rounded-xl p-6 relative">
+            {/* Connector dot and line */}
+            <div className="absolute -top-[120px] left-10 w-[1px] h-[120px] bg-white/40">
+              <div className="absolute -top-1 -left-1 w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+            </div>
+            
+            <div className="space-y-1 text-xs text-white/80 font-medium">
+              <p>Studio: <span className="text-white">{project.studio}</span></p>
+              <p>Architects: <span className="text-white">{project.architects}</span></p>
+              <p>Location: <span className="text-white">{project.location}</span></p>
+              <p>Area: <span className="text-white">{project.area}</span></p>
+              <p>Year: <span className="text-white">{project.year}</span></p>
+              <p>Category: <span className="text-white">{project.category}</span></p>
+            </div>
           </div>
-          
-          <div className="space-y-1 text-xs text-white/80 font-medium">
-            <p>Studio: <span className="text-white">Grovix Architects</span></p>
-            <p>Architects: <span className="text-white">Jane Doe, John Smith</span></p>
-            <p>Location: <span className="text-white">Swiss Alps, Zermatt</span></p>
-            <p>Area: <span className="text-white">450 m2</span></p>
-            <p>Year: <span className="text-white">2026</span></p>
-            <p>Category: <span className="text-white">Private houses</span></p>
-          </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </AnimatePresence>
 
       {/* Footer-like text in hero */}
       <div className="absolute bottom-10 right-10 z-30 max-w-md text-xs text-white/60 text-right leading-relaxed font-medium">
