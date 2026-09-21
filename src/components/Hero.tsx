@@ -9,7 +9,7 @@ const Hero = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % projectsData.length);
-    }, 4000); // 4 seconds gives a bit more time to read than 3 seconds
+    }, 5000); // Changed to 5 seconds
     return () => clearInterval(timer);
   }, []);
   const { scrollYProgress } = useScroll({
@@ -82,7 +82,7 @@ const Hero = () => {
           exit={{ opacity: 0, y: -50 }}
           transition={{ duration: 1, ease: "easeInOut" }}
           style={{ y: textY, x: textOffsetX }}
-          className="absolute inset-0 flex items-start justify-center pt-[8vh] pointer-events-none z-10"
+          className={`absolute inset-0 flex items-start pointer-events-none z-10 ${project.primaryPosition || 'justify-center pt-[8vh]'}`}
         >
           <h1 className="text-[13vw] font-bold text-[#F0EBE1] leading-none tracking-tighter select-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] opacity-95">
             {project.primaryText}
@@ -99,7 +99,7 @@ const Hero = () => {
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 1, ease: "easeInOut" }}
           style={{ x: textOffsetX, y: textOffsetY }}
-          className="absolute bottom-[20%] right-[8%] z-20 pointer-events-none"
+          className={`absolute z-20 pointer-events-none ${project.secondaryPosition || 'bottom-[20%] right-[8%]'}`}
         >
           <h2 className="font-serif italic text-6xl md:text-[8rem] text-white/90 font-light drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
             {project.secondaryText}
